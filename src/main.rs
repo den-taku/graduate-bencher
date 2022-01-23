@@ -138,7 +138,8 @@ fn main() -> std::io::Result<()> {
             gap_lb as f64 / (opt - infeasible - fail_count) as f64
         };
         buf.push_str(&format!(
-            "opt: {}, ife: {}, sum: {} ms, avr: {} ms, re: {} times, max: {}ms, gap_lb: {}, gap_ub: {}, nodes: {}, cached: {}\n",
+            "oom: {}, opt: {}, ife: {}, sum: {} ms, avr: {} ms, re: {} times, max: {}ms, gap_lb: {}, gap_ub: {}, nodes: {}, cached: {}\n",
+            oom,
             opt,infeasible,
             sum,
             sum / opt as u128,
