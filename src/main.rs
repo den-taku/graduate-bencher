@@ -98,7 +98,14 @@ fn main() -> std::io::Result<()> {
 
     for i in 0..size {
         let path = format!("{}/result{}", &args[1], i);
-        let mut file = File::open(&path)?;
+        let result = File::open(&path);
+        if result.is_err() {
+            let mut file = File::create(&path)?;
+            file.write_all("0 0".as_bytes()).unwrap();
+            oom += 1;
+            continue;
+        }
+        let mut file = result?;
         let mut contents = String::new();
         file.read_to_string(&mut contents)?;
         let values: std::str::SplitWhitespace = contents.split_whitespace();
@@ -151,5 +158,6 @@ fn main() -> std::io::Result<()> {
             cached / opt as u128,
         ));
     }
+    eprintln!("opt: {}", opt);
     file.write_all(buf.as_bytes())
 }
